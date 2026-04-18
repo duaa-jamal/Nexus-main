@@ -10,6 +10,8 @@ import { useAuth } from '../../context/AuthContext';
 import { Entrepreneur } from '../../types';
 import { entrepreneurs } from '../../data/users';
 import { getRequestsFromInvestor } from '../../data/collaborationRequests';
+import { Video } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 
 export const InvestorDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -66,6 +68,12 @@ export const InvestorDashboard: React.FC = () => {
           </Button>
         </Link>
       </div>
+
+      <Link to="/videocall">
+  <Button variant="outline" leftIcon={<Video size={18} />}>
+    Start Video Call
+  </Button>
+</Link>
       
       {/* Filters and search */}
       <div className="flex flex-col md:flex-row gap-4">
@@ -146,6 +154,20 @@ export const InvestorDashboard: React.FC = () => {
           </CardBody>
         </Card>
       </div>
+
+      <Card className="bg-purple-50 border border-purple-100">
+  <CardBody>
+    <div className="flex items-center">
+      <div className="p-3 bg-purple-100 rounded-full mr-4">
+        <Wallet size={20} className="text-purple-700" />
+      </div>
+      <div>
+        <p className="text-sm font-medium text-purple-700">Wallet Balance</p>
+        <h3 className="text-xl font-semibold text-purple-900">$62,500</h3>
+      </div>
+    </div>
+  </CardBody>
+</Card>
       
       {/* Entrepreneurs grid */}
       <div>

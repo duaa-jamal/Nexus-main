@@ -1,6 +1,9 @@
 import React from 'react';
+import { VideoCallPage } from './pages/VideoCall/VideoCallPage';
+import { CalendarPage } from './pages/calendar/CalendarPage';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { PaymentsPage } from './pages/payments/PaymentsPage';
 
 // Layouts
 import { DashboardLayout } from './components/layout/DashboardLayout';
@@ -82,6 +85,18 @@ function App() {
           
           <Route path="/deals" element={<DashboardLayout />}>
             <Route index element={<DealsPage />} />
+          </Route>
+
+          <Route path="/calendar" element={<DashboardLayout />}>
+            <Route index element={<CalendarPage />} />
+          </Route>
+
+          <Route path="/videocall" element={<DashboardLayout />}>
+            <Route index element={<VideoCallPage />} />
+          </Route>
+
+          <Route path="/payments" element={<DashboardLayout />}>
+            <Route index element={<PaymentsPage />} />
           </Route>
           
           {/* Chat Routes */}

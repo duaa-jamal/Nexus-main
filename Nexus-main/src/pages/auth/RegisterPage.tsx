@@ -6,6 +6,45 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { UserRole } from '../../types';
 
+// ── Password Strength ──────────────────────────────────────────────────────
+const getStrength = (pwd: string): { score: number; label: string; color: string } => {
+  let score = 0;
+  if (pwd.length >= 8)            score++;
+  if (/[A-Z]/.test(pwd))         score++;
+  if (/[0-9]/.test(pwd))         score++;
+  if (/[^A-Za-z0-9]/.test(pwd))  score++;
+  if (pwd.length >= 12)           score++;
+  const levels = [
+    { label: '',          color: 'bg-gray-200'  },
+    { label: 'Very Weak', color: 'bg-red-500'   },
+    { label: 'Weak',      color: 'bg-orange-400'},
+    { label: 'Fair',      color: 'bg-yellow-400'},
+    { label: 'Strong',    color: 'bg-blue-500'  },
+    { label: 'Very Strong', color: 'bg-green-500'},
+  ];
+  return { score, ...levels[score] };
+};
+
+const PasswordStrengthMeter: React.FC<{ password: string }> = ({ password }) => {
+  const { score, label, color } = getStrength(password);
+  if (!password) return null;
+  return (
+    <div className="space-y-1.5 mt-1">
+      <div className="flex gap-1">
+        {[1, 2, 3, 4, 5].map(i => (
+          <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= score ? color : 'bg-gray-200'}`} />
+        ))}
+      </div>
+      <p className={`text-xs font-medium ${
+        score <= 1 ? 'text-red-500' : score <= 2 ? 'text-orange-500' :
+        score === 3 ? 'text-yellow-600' : score === 4 ? 'text-blue-600' : 'text-green-600'
+      }`}>
+        {label && `Password strength: ${label}`}
+      </p>
+    </div>
+  );
+};
+
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -122,6 +161,8 @@ export const RegisterPage: React.FC = () => {
               startAdornment={<Mail size={18} />}
             />
             
+            <div>
+              
             <Input
               label="Password"
               type="password"
@@ -131,6 +172,8 @@ export const RegisterPage: React.FC = () => {
               fullWidth
               startAdornment={<Lock size={18} />}
             />
+            <PasswordStrengthMeter password={password} />
+          </div>
             
             <Input
               label="Confirm password"
